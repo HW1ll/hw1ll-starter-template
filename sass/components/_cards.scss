@@ -1,0 +1,36 @@
+@use '../abstracts/'as*;
+
+.card {
+    --img-ratio: 4/3;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    gap: $card-flow-spacing;
+    padding: $card-body-padding;
+    background-color: $card-background-default;
+    font-family: $card-font-family;
+    color: $card-color-default;
+    line-height: $card-line-height;
+    box-shadow: $box-shadow-2;
+
+    &__header {
+        @include heading($font-size: $card-heading-font-size);
+
+        img {
+            aspect-ratio: var(--img-ratio);
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    &__text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: $card-text-line-clamp;
+        overflow: hidden;
+        font-size: $card-body-font-size;
+        line-height: $card-text-line-height;
+    }
+}

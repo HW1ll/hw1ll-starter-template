@@ -1,0 +1,17 @@
+@use "../abstracts"as *;
+
+// Dark / Light themes
+@each $color,
+$shade-map in $colors-theme {
+
+    @each $shade,
+    $value in $shade-map {
+        .text-#{$color}-#{$shade} {
+            color: var(--#{$prefix}#{$color}-#{$shade});
+        }
+
+        .bg-#{$color}-#{$shade} {
+            background-color: var(--#{$prefix}#{$color}-#{$shade});
+        }
+    }
+}

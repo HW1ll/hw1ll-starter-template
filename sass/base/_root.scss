@@ -1,0 +1,116 @@
+@use "../abstracts"as *;
+@use 'sass:map';
+@use 'sass:meta';
+
+:root {
+
+    // If multi themes, we use prefers colors schemes or if not, we use default
+    @if ($enable-themes) {
+        @media (prefers-color-scheme: light) {
+            body[data-theme="light"] {
+
+                @each $color,
+                $shade-map in $light-theme {
+
+                    @each $shade,
+                    $value in $shade-map {
+                        --#{$prefix}#{$color}-#{$shade}: #{$value};
+                    }
+                }
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body[data-theme="dark"] {
+
+                @each $color,
+                $shade-map in $dark-theme {
+
+                    @each $shade,
+                    $value in $shade-map {
+                        --#{$prefix}#{$color}-#{$shade}: #{$value};
+                    }
+                }
+            }
+        }
+    }
+
+    @else {
+
+        @each $color,
+        $shade-map in $colors-theme {
+
+            @each $shade,
+            $value in $shade-map {
+                --#{$prefix}#{$color}-#{$shade}: #{$value};
+            }
+        }
+    }
+
+    // If not using prefers-color-scheme but enable-themes is true
+    body[data-theme="light"] {
+
+        @each $color,
+        $shade-map in $light-theme {
+
+            @each $shade,
+            $value in $shade-map {
+                --#{$prefix}#{$color}-#{$shade}: #{$value};
+            }
+        }
+    }
+
+    body[data-theme="dark"] {
+
+        @each $color,
+        $shade-map in $dark-theme {
+
+            @each $shade,
+            $value in $shade-map {
+                --#{$prefix}#{$color}-#{$shade}: #{$value};
+            }
+        }
+    }
+}
+
+// Font sizes vars with breakpoints keys
+@each $breakpoint-name,
+$breakpoint-value in $grid-breakpoints {
+    @if map.has-key($font-sizes, $breakpoint-name) {
+
+        // Mobile-first root font sizes
+        @if $breakpoint-name=='xs'or $breakpoint-value==0 {
+            :root {
+
+                @each $font-breakpoint-key,
+                $font-size-value-map in $font-sizes {
+                    @if $font-breakpoint-key=='xs' {
+
+                        @each $font-size-key,
+                        $font-size-value in $font-size-value-map {
+                            --#{$prefix}#{$font-size-key}: #{$font-size-value};
+                        }
+                    }
+                }
+            }
+        }
+
+        @else {
+            @media (min-width: #{$breakpoint-value}) {
+                :root {
+
+                    @each $font-breakpoint-key,
+                    $font-size-value-map in $font-sizes {
+                        @if $font-breakpoint-key==#{$breakpoint-name} {
+
+                            @each $font-size-key,
+                            $font-size-value in $font-size-value-map {
+                                --#{$prefix}#{$font-size-key}: #{$font-size-value};
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,293 @@
+@use "sass:meta";
+@use "sass:math";
+@use "sass:map";
+@use "sass:list";
+@use "sass:color";
+@use "sass:string";
+@use "breakpoints"as *;
+@use "tokens"as *;
+@use "functions"as *;
+
+@mixin heading($font-family: $heading-font-family,
+  $font-size: 1.5rem,
+  $font-weight:700,
+  $color: $color-text-accent-default,
+  $line-height:$heading-line-height) {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  color: $color;
+  line-height: $line-height;
+}
+
+@mixin m-p($type, $length, $direction: all, $pxtorem: true) {
+  $accepted-types: 'margin', 'padding';
+  $accepted-strings: inherit, initial, unset, auto;
+  $accepted-units: 'px', 'em', 'rem', '%';
+  $accepted-directions: all, top, left, right, bottom, inline, inline-start, inline-end, block, block-start, block-end;
+
+  // Type checking
+  @if meta.type-of($type) !=string or not list.index($accepted-types, $type) {
+    @error 'When using @m-p() make sure the type you set ("#{$type}") is an accepted value from the following list : "#{$accepted-types}"';
+  }
+
+  // Multiples lengths checking
+  @if meta.type-of($length)==list {
+    @if $direction !=all and $direction !=inline and $direction !=block {
+      @error 'When using @m-p() with the #{$direction} direction set, you cannot add multiples values for the length parameter.';
+    }
+
+    @if $direction==all {
+      @if length($length)>4 {
+        @error 'When using @m-p() with the direction set to "all", you cannot add more than 4 values for the length parameter.';
+      }
+    }
+
+    @if $direction==inline or $direction==block {
+      @if length($length)>2 {
+        @error 'When using @m-p() with the #{$direction} direction set, you cannot add more than 2 values for the length parameter.';
+      }
+    }
+
+    // Lengths checking
+    @each $value in $length {
+      @if meta.type-of($value)==string {
+        @if not list.index($accepted-strings, $value) {
+          @error 'When using @m-p() make sure the length you set ("#{$value}") is an accepted value from the following list : "#{$accepted-strings}"';
+        }
+      }
+
+      @else if meta.type-of($value)==number and $value !=0 {
+        @if $type==padding and $value <0 {
+          @error 'When using @m-p() with the padding type, you cannot set negative values for the length parameter.';
+        }
+
+        @if math.is-unitless($value) {
+          @error 'When using @m-p() make sure the values you set ("#{$value}") are not unitless.';
+        }
+
+        @if not list.index($accepted-units, math.unit($value)) and $value !=0 {
+          @error 'When using @m-p() make sure the values you set ("#{$value}") have accepted units from the following list : "#{$accepted-units}"';
+        }
+      }
+    }
+  }
+
+  // Single length checking
+  @if meta.type-of($length)==string {
+    @if not list.index($accepted-strings, $length) {
+      @error 'When using @m-p() make sure the length you set ("#{$length}") is an accepted value from the following list : "#{$accepted-strings}"';
+    }
+  }
+
+  @else if meta.type-of($length)==number {
+    @if $type==padding and $length <0 {
+      @error 'When using @m-p() with the padding type, you cannot set a negative value ("#{$length}") for the length parameter.';
+    }
+
+    @if math.is-unitless($length) {
+      @error 'When using @m-p() make sure the value you set ("#{$length}") is not unitless.';
+    }
+
+    @if not list.index($accepted-units, math.unit($length)) and $length !=0 {
+      @error 'When using @m-p() make sure the value you set ("#{$length}") have an accepted unit from the following list : "#{$accepted-units}"';
+    }
+  }
+
+  // Direction checking
+  @if not list.index($accepted-directions, $direction) {
+    @error 'When using @m-p() make sure the direction you set ("#{$direction}") is an accepted direction from the following list : "#{$accepted-directions}"';
+  }
+
+  // Convert px length values to rem
+  @if $pxtorem {
+    @if meta.type-of($length)==list {
+      @for $i from 1 through length($length) {
+        $value: list.nth($length, $i);
+
+        @if math.unit($value)=='px' {
+          $value: pxtorem($value);
+          $length: list.set-nth($length, $i, $value);
+        }
+      }
+    }
+
+    @else if math.unit($length)=='px' {
+      $length: pxtorem($length);
+    }
+  }
+
+  // Output
+  @if $direction==all {
+    #{$type}: $length;
+  }
+
+  @else {
+    #{$type}-#{$direction}: $length;
+  }
+}
+
+@mixin border($width, $style, $color, $direction: all, $pxtorem: true) {
+  $accepted-units: 'px', 'em', 'rem';
+  $accepted-widths: thin, medium, thick, inherit, initial, unset, revert, revert-layer;
+  $accepted-styles: none, hidden, dotted, dashed, solid, double, groove, ridge, inset, outset;
+  $accepted-directions: all, top, left, right, bottom, inline-start, inline, inline-end, block-start, block, block-end;
+
+  // Width checking
+  @if meta.type-of($width)==list {
+    @error 'When using @border() you cannot add multiples values for the width parameter.';
+  }
+
+  @if meta.type-of($width)==string {
+    @if not list.index($accepted-widths, $width) {
+      @error 'When using @border() make sure the width you set ("#{$width}") is an accepted value from the following list : "#{$accepted-widths}"';
+    }
+  }
+
+  @else if meta.type-of($width)==number {
+    @if math.is-unitless($width) and $width !=0 {
+      @error 'when using @border() make sure the value you set ("#{$width}") is not unitless.';
+    }
+
+    @if not list.index($accepted-units, math.unit($width)) and $width !=0 {
+      @error 'When using @border() make sure the value you set ("#{$width}") have accepted unit from the following list : "#{$accepted-units}"';
+    }
+  }
+
+  // Style checking
+  @if meta.type-of($style)==list {
+    @error 'When using @border() you cannot add multiples values for the style parameter.';
+  }
+
+  @if meta.type-of($style)==string {
+    @if not list.index($accepted-styles, $style) {
+      @error 'When using @border() make sure the style you set ("#{$style}") is an accepted value from the following list : "#{$accepted-styles}"';
+    }
+  }
+
+  @else if meta.type-of($style)==number {
+    @error 'When using @border() make sure the style you set ("#{$style}") is a string value from the following list : "#{$accepted-styles}" and not a number';
+  }
+
+  // Color checking
+  @if meta.type-of($color)==list {
+    @error 'When using @border() you cannot add multiples values for the color parameter.';
+  }
+
+  // Direction checking
+  @if meta.type-of($direction)==list {
+    @error 'When using @border() you cannot add multiples values for the direction parameter.';
+  }
+
+  @if meta.type-of($direction)==string {
+    @if not list.index($accepted-directions, $direction) {
+      @error 'When using @border() make sure the direction you set ("#{$direction}") is an accepted value from the following list : "#{$accepted-directions}"';
+    }
+  }
+
+  @else if meta.type-of($direction)==number {
+    @error 'When using @border() make sure the direction you set ("#{$direction}") is a string value from the following list : "#{$accepted-directions}" and not a number';
+  }
+
+  // Convert px width value to rem
+  @if $pxtorem {
+    @if math.unit($width)=='px' {
+      $width: pxtorem($width);
+    }
+  }
+
+  // Output
+  @if $direction==all {
+    border: $width $style $color;
+  }
+
+  @else {
+    border-#{$direction}: $width $style $color;
+  }
+}
+
+@mixin border-radius($radius, $pxtorem: true) {
+  $accepted-strings: inherit, initial, unset, revert, revert-layer;
+  $accepted-units: 'px', 'em', 'rem', '%';
+
+  @if meta.type-of($radius)==string {
+    @if not list.index($accepted-strings, $radius) {
+      @error 'When using @border-radius() make sure the value you set is ("#{$radius}") an accepted value from the following list : "#{$accepted-strings}"';
+    }
+  }
+
+  @else if meta.type-of($radius)==number {
+    @if math.is-unitless($radius) and $radius !=0 {
+      @error 'when using @border-radius() make sure the value you set ("#{$radius}") is not unitless.';
+    }
+
+    @if not list.index($accepted-units, math.unit($radius)) and $radius !=0 {
+      @error 'When using @border-radius() make sure the value you set ("#{$radius}") have accepted unit from the following list : "#{$accepted-units}"';
+    }
+  }
+
+  @else if meta.type-of($radius)==list {
+    @each $value in $radius {
+      @if meta.type-of($value)==string {
+        @error 'When using @border-radius() with multiple values, they must be numeric values. You cannot set any of the following values : "#{$accepted-strings}" or any other string values.';
+      }
+
+      @else if meta.type-of($value)==number and $value !=0 {
+        @if math.is-unitless($value) {
+          @error 'When using @border-radius() make sure the values you set ("#{$value}") are not unitless.';
+        }
+
+        @if not list.index($accepted-units, math.unit($value)) and $value !=0 {
+          @error 'When using @border-radius() make sure the values you set ("#{$value}") have accepted units from the following list : "#{$accepted-units}"';
+        }
+      }
+    }
+  }
+
+  @else {
+    @error 'When using @border-radius() make sure to use a string or numeric values.';
+  }
+
+  // Convert px radius values to rem
+  @if $pxtorem {
+    @if meta.type-of($radius)==list {
+      @for $i from 1 through length($radius) {
+        $value: list.nth($radius, $i);
+
+        @if math.unit($value)=='px' {
+          $value: pxtorem($value);
+          $radius: list.set-nth($radius, $i, $value);
+        }
+      }
+    }
+
+    @else if math.unit($radius)=='px' {
+      $radius: pxtorem($radius);
+    }
+  }
+
+  border-radius: $radius;
+}
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min !=0, $min, null);
+}
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+  @return if(breakpoint-min($name, $breakpoints)==null, "", "-#{$name}");
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  }
+
+  @else {
+    @content;
+  }
+}

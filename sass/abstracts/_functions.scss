@@ -1,0 +1,59 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'tokens'as *;
+@use 'typography'as *;
+@use 'sizes'as *;
+
+// px => rem Ex : width: pxtorem(40px);
+@function pxtorem($px-value) {
+    $html-size-base: $font-size-base;
+
+    @if math.unit($px-value)=='px'or math.is-unitless($px-value) {
+        @return math.div(strip-unit($px-value), strip-unit($html-size-base)) * 1rem;
+    }
+
+    @else if math.unit($px-value)=='rem' {
+        @return $px-value;
+    }
+
+    @else {
+        @error 'when using @pxtorem() make sure to include a valid unit (px/rem) or set it unitless.';
+    }
+}
+
+// px or rem => rem Ex : font-size: fs(16px);
+@function fs($font-size) {
+    @if math.unit($font-size)=='px'or math.is-unitless($font-size) {
+        @return math.div(strip-unit($font-size), strip-unit($font-size-base)) * 1rem;
+    }
+
+    @else if math.unit($font-size)=='rem' {
+        @return $font-size;
+    }
+
+    @else {
+        @error 'when using @fs() make sure to include a valid unit (px/rem) or set it unitless.';
+    }
+}
+
+// string or number => number Ex : font-weight: fw(700);
+@function fw($font-weight) {
+
+    @each $key,
+    $value in $font-weights {
+        @if $font-weight==$key or $font-weight==$value {
+            @return $value;
+        }
+    }
+
+    @error '#{$font-weight} not found in $font-weights.';
+}
+
+// Remove unit from number
+@function strip-unit($number) {
+    @if type-of($number)=='number'and not unitless($number) {
+        @return math.div($number, ($number * 0 + 1));
+    }
+
+    @return $number;
+}

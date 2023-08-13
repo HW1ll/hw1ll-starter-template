@@ -1,0 +1,6 @@
+.flow {
+    >*:where(:not(:first-child)) {
+        margin-block-start: var(--flow-spacer, .5rem);
+        margin-top: var(--flow-spacer, .5rem); // IE11
+    }
+}

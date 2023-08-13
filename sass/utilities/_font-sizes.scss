@@ -1,0 +1,13 @@
+@use "../abstracts"as *;
+
+@each $screen-size,
+$size-map in $font-sizes {
+
+    @each $size-name,
+    $size-value in $size-map {
+
+        .#{$size-name} {
+            font-size: var(--#{$prefix}#{$size-name});
+        }
+    }
+}

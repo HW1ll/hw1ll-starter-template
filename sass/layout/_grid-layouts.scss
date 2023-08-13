@@ -1,0 +1,52 @@
+@use '../abstracts/'as *;
+@use 'sass:math';
+
+// Grid columns system based on $layout-col-count
+.grid-columns {
+    display: grid;
+    grid-template-columns: repeat(1, [col-start] 1fr);
+    gap: var(--grid-gap, $grid-gap);
+
+    @each $breakpoint-name,
+    $breakpoint-value in $grid-breakpoints {
+        @if $breakpoint-name=='xs' {
+            @for $i from 1 through $layout-col-count {
+                $y: math.div($layout-col-count, $i);
+
+                &.col-#{$i} {
+                    grid-template-columns: repeat(#{$y}, [col-start] 1fr);
+                }
+            }
+        }
+
+        @else {
+            @include media-breakpoint-up(#{$breakpoint-name}) {
+                @for $i from 1 through $layout-col-count {
+                    $y: math.div($layout-col-count, $i);
+
+                    &.col-#{$breakpoint-name}-#{$i} {
+                        grid-template-columns: repeat(#{$y}, [col-start] 1fr);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Grid masonry system
+.grid-masonry {
+    --grid-masonry-col-min: 15rem;
+    display: grid;
+    gap: var(--grid-gap, $grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-masonry-col-min), 1fr));
+    grid-template-rows: masonry;
+    masonry-auto-flow: next;
+}
+
+// Grid auto-fit system
+.grid-auto-fit {
+    --grid-auto-fit-min: 15rem;
+    display: grid;
+    gap: var(--grid-gap, $grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-auto-fit-min), 100%), 1fr));
+}

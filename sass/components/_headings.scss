@@ -1,0 +1,38 @@
+@use '../abstracts/'as*;
+
+.heading-1 {
+    @include heading($font-size:$font-size-1,
+        $color:$color-accent-medium);
+}
+
+.heading-2 {
+    @include heading($font-size:$font-size-2,
+        $color:$color-accent-medium);
+}
+
+.heading-3 {
+    @include heading($font-size:$font-size-3,
+        $color:$color-primary-medium);
+}
+
+.heading-4 {
+    @include heading($font-size:$font-size-4,
+        $color:$color-primary-medium);
+}
+
+.heading-5 {
+    @include heading($font-size:$font-size-5,
+        $color:$color-primary-medium);
+}
+
+.heading-6 {
+    @include heading($font-size:$font-size-6,
+        $color:$color-primary-medium);
+}
+
+.page-title {
+    @include border(1px, solid, $color-accent-medium, block-start);
+    @include border-radius(0);
+    @include m-p(margin, 1rem 0);
+    @include m-p(padding, 1rem .5rem);
+}

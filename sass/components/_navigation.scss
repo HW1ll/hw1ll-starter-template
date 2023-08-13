@@ -1,0 +1,23 @@
+@use "../abstracts"as *;
+
+.top-nav {
+    display: flex;
+    flex-wrap: $navigation-wrap;
+    --navigation-gap: #{$navigation-gap};
+    list-style: none;
+    font-family: $navigation-font-family;
+    font-weight: $navigation-font-weight;
+    gap: var(--navigation-gap, $navigation-gap);
+    margin: $navigation-margin;
+    padding: $navigation-padding;
+
+    a {
+        color: $navigation-color;
+        text-decoration: $navigation-link-text-decoration;
+
+        &:is(:hover, :focus) {
+            color: $navigation-color-hover;
+            text-decoration: $navigation-link-hover-text-decoration;
+        }
+    }
+}

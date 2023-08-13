@@ -1,0 +1,40 @@
+@use '../abstracts/'as*;
+
+.link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $link-font-size;
+    font-weight: $link-font-weight;
+    text-align: center;
+    text-decoration: $link-text-decoration;
+    text-transform: $link-text-transform;
+    cursor: pointer;
+    padding: $link-padding;
+    line-height: 1;
+    transition: $link-transition;
+
+    &[data-link-type="primary"] {
+        color: $link-primary-color;
+
+        &:is(:hover, :focus) {
+            color: $link-primary-color-hover;
+        }
+    }
+
+    &[data-link-type="secondary"] {
+        color: $link-secondary-color;
+
+        &:is(:hover, :focus) {
+            color: $link-secondary-color-hover;
+        }
+    }
+
+    &[data-link-type="accent"] {
+        color: $link-accent-color;
+
+        &:is(:hover, :focus) {
+            color: $link-accent-color-hover;
+        }
+    }
+}

@@ -1,0 +1,244 @@
+@use "../abstracts"as *;
+
+@each $breakpoint-name,
+$breakpoint-value in $grid-breakpoints {
+    @if $breakpoint-name=='xs' {
+
+        @each $size-key,
+        $size-value in $sizes {
+            .m {
+                &-#{$size-key} {
+                    margin: $size-value;
+                }
+
+                &t-#{$size-key},
+                &-block-start-#{$size-key} {
+                    margin-block-start: $size-value;
+                }
+
+                // Negatives
+                &t-n#{$size-key},
+                &-block-start-n#{$size-key} {
+                    margin-block-start: -$size-value;
+                }
+
+                &b-#{$size-key},
+                &-block-end-#{$size-key} {
+                    margin-block-end: $size-value;
+                }
+
+                // Negatives
+                &b-n#{$size-key},
+                &-block-end-n#{$size-key} {
+                    margin-block-end: -$size-value;
+                }
+
+                &y-#{$size-key},
+                &-block-#{$size-key} {
+                    margin-block: $size-value;
+                }
+
+                // Negatives
+                &y-n#{$size-key},
+                &-block-n#{$size-key} {
+                    margin-block: -$size-value;
+                }
+
+                &s-#{$size-key},
+                &-inline-start-#{$size-key} {
+                    margin-inline-start: $size-value;
+                }
+
+                // Negatives
+                &s-n#{$size-key},
+                &-inline-start-n#{$size-key} {
+                    margin-inline-start: -$size-value;
+                }
+
+                &e-#{$size-key},
+                &-inline-end-#{$size-key} {
+                    margin-inline-end: $size-value;
+                }
+
+                // Negatives
+                &e-n#{$size-key},
+                &-inline-end-n#{$size-key} {
+                    margin-inline-end: -$size-value;
+                }
+
+                &x-#{$size-key},
+                &-inline-#{$size-key} {
+                    margin-inline: $size-value;
+                }
+
+                // Negatives
+                &x-n#{$size-key},
+                &-inline-n#{$size-key} {
+                    margin-inline: -$size-value;
+                }
+
+                &x-auto,
+                &-inline-auto {
+                    margin-inline: auto;
+                }
+            }
+
+            .p {
+                &-#{$size-key} {
+                    padding: $size-value;
+                }
+
+                &t-#{$size-key},
+                &-block-start-#{$size-key} {
+                    padding-block-start: $size-value;
+                }
+
+                &b-#{$size-key},
+                &-block-end-#{$size-key} {
+                    padding-block-end: $size-value;
+                }
+
+                &y-#{$size-key},
+                &-block-#{$size-key} {
+                    padding-block: $size-value;
+                }
+
+                &s-#{$size-key},
+                &-inline-start-#{$size-key} {
+                    padding-inline-start: $size-value;
+                }
+
+                &e-#{$size-key},
+                &-inline-end-#{$size-key} {
+                    padding-inline-end: $size-value;
+                }
+
+                &x-#{$size-key},
+                &-inline-#{$size-key} {
+                    padding-inline: $size-value;
+                }
+            }
+        }
+    }
+
+    @else {
+
+        @each $size-key,
+        $size-value in $sizes {
+            @include media-breakpoint-up(#{$breakpoint-name}) {
+                .m {
+                    &-#{$breakpoint-name}-#{$size-key} {
+                        margin: $size-value;
+                    }
+
+                    &t-#{$breakpoint-name}-#{$size-key},
+                    &-block-start-#{$breakpoint-name}-#{$size-key} {
+                        margin-block-start: $size-value;
+                    }
+
+                    // Negatives
+                    &t-#{$breakpoint-name}-n#{$size-key},
+                    &-block-start-#{$breakpoint-name}-n#{$size-key} {
+                        margin-block-start: -$size-value;
+                    }
+
+                    &b-#{$breakpoint-name}-#{$size-key},
+                    &-block-end-#{$breakpoint-name}-#{$size-key} {
+                        margin-block-end: $size-value;
+                    }
+
+                    // Negatives
+                    &b-#{$breakpoint-name}-n#{$size-key},
+                    &-block-end-#{$breakpoint-name}-n#{$size-key} {
+                        margin-block-end: -$size-value;
+                    }
+
+                    &y-#{$breakpoint-name}-#{$size-key},
+                    &-block-#{$breakpoint-name}-#{$size-key} {
+                        margin-block: $size-value;
+                    }
+
+                    // Negatives
+                    &y-#{$breakpoint-name}-n#{$size-key},
+                    &-block-#{$breakpoint-name}-n#{$size-key} {
+                        margin-block: -$size-value;
+                    }
+
+                    &s-#{$breakpoint-name}-#{$size-key},
+                    &-inline-start-#{$breakpoint-name}-#{$size-key} {
+                        margin-inline-start: $size-value;
+                    }
+
+                    // Negatives
+                    &s-#{$breakpoint-name}-n#{$size-key},
+                    &-inline-start-#{$breakpoint-name}-n#{$size-key} {
+                        margin-inline-start: -$size-value;
+                    }
+
+                    &e-#{$breakpoint-name}-#{$size-key},
+                    &-inline-end-#{$breakpoint-name}-#{$size-key} {
+                        margin-inline-end: $size-value;
+                    }
+
+                    // Negatives
+                    &e-#{$breakpoint-name}-n#{$size-key},
+                    &-inline-end-#{$breakpoint-name}-n#{$size-key} {
+                        margin-inline-end: -$size-value;
+                    }
+
+                    &x-#{$breakpoint-name}-#{$size-key},
+                    &-inline-#{$breakpoint-name}-#{$size-key} {
+                        margin-inline: $size-value;
+                    }
+
+                    // Negatives
+                    &x-#{$breakpoint-name}-n#{$size-key},
+                    &-inline-#{$breakpoint-name}-n#{$size-key} {
+                        margin-inline: -$size-value;
+                    }
+
+                    &x-#{$breakpoint-name}-auto,
+                    &-inline-#{$breakpoint-name}-auto {
+                        margin-inline: auto;
+                    }
+                }
+
+                .p {
+                    &-#{$breakpoint-name}-#{$size-key} {
+                        padding: $size-value;
+                    }
+
+                    &t-#{$breakpoint-name}-#{$size-key},
+                    &-block-start-#{$breakpoint-name}-#{$size-key} {
+                        padding-block-start: $size-value;
+                    }
+
+                    &b-#{$breakpoint-name}-#{$size-key},
+                    &-block-end-#{$breakpoint-name}-#{$size-key} {
+                        padding-block-end: $size-value;
+                    }
+
+                    &y-#{$breakpoint-name}-#{$size-key},
+                    &-block-#{$breakpoint-name}-#{$size-key} {
+                        padding-block: $size-value;
+                    }
+
+                    &s-#{$breakpoint-name}-#{$size-key},
+                    &-inline-start-#{$breakpoint-name}-#{$size-key} {
+                        padding-inline-start: $size-value;
+                    }
+
+                    &e-#{$breakpoint-name}-#{$size-key},
+                    &-inline-end-#{$breakpoint-name}-#{$size-key} {
+                        padding-inline-end: $size-value;
+                    }
+
+                    &x-#{$breakpoint-name}-#{$size-key},
+                    &-inline-#{$breakpoint-name}-#{$size-key} {
+                        padding-inline: $size-value;
+                    }
+                }
+            }
+        }
+    }
+}

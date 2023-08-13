@@ -1,0 +1,8 @@
+@use "../abstracts/" as *;
+
+.ft-base {
+  font-family: $font-family-base;
+}
+.ft-accent {
+  font-family: $font-family-accent;
+}

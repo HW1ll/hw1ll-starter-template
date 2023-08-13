@@ -1,0 +1,58 @@
+@use "../abstracts/"as *;
+
+@each $breakpoint-name,
+$breakpoint-value in $grid-breakpoints {
+    @if $breakpoint-name=='xs' {
+        .d-grid {
+            display: grid;
+        }
+
+        .d-inline-flex {
+            display: inline-flex;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .d-inline-block {
+            display: inline-block;
+        }
+
+        .d-block {
+            display: block;
+        }
+
+        .d-none {
+            display: none;
+        }
+    }
+
+    @else {
+        @include media-breakpoint-up(#{$breakpoint-name}) {
+            .d-#{$breakpoint-name}-grid {
+                display: grid !important;
+            }
+
+            .d-#{$breakpoint-name}-inline-flex {
+                display: inline-flex !important;
+            }
+
+            .d-#{$breakpoint-name}-flex {
+                display: flex !important;
+            }
+
+            .d-#{$breakpoint-name}-inline-block {
+                display: inline-block !important;
+            }
+
+            .d-#{$breakpoint-name}-block {
+                display: block !important;
+            }
+
+            .d-#{$breakpoint-name}-none {
+                display: none !important;
+            }
+        }
+    }
+}

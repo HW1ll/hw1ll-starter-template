@@ -1,0 +1,27 @@
+@use "../abstracts"as *;
+
+.site-header {
+    color: $site-header-color;
+    background-color: $site-header-background-color;
+    padding: $site-header-padding;
+    
+    @if $site-header-sticky {
+        position: sticky;
+        z-index: $site-header-z-index;
+        top: 0;
+    }
+
+    &__inner {
+        display: flex;
+        gap: $size-4;
+        align-items: $site-header-alignment;
+        justify-content: $site-header-justification;
+    }
+    &__title{
+        font-family: $site-header-title-font-family;
+        font-size: $site-header-title-font-size;
+        font-weight: $site-header-title-font-weight;
+        text-transform: $site-header-title-text-transform;
+        color: $site-header-title-color;
+    }
+}

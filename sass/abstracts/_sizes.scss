@@ -1,0 +1,71 @@
+@use 'sass:map';
+
+@function generate-sizes-map($count) {
+    $step: 0.125;
+    $sizes: ();
+
+    @for $i from 0 through $count {
+        $key: ($i * 2);
+        $size: ($i * $step);
+        $sizes: map-merge($sizes, ($key:calc($size*1rem)));
+    }
+
+    // 0: 0rem, 2: 0.125rem, 4: 0.25rem, 6: 0.375rem ...
+    
+    @return $sizes;
+}
+
+$sizes: generate-sizes-map(50);
+
+// Sizes vars
+$size-0: map.get($sizes, 0);
+$size-1: map.get($sizes, 1);
+$size-2: map.get($sizes, 2);
+$size-3: map.get($sizes, 3);
+$size-4: map.get($sizes, 4);
+$size-5: map.get($sizes, 5);
+$size-6: map.get($sizes, 6);
+$size-7: map.get($sizes, 7);
+$size-8: map.get($sizes, 8);
+$size-9: map.get($sizes, 9);
+$size-10: map.get($sizes, 10);
+$size-11: map.get($sizes, 11);
+$size-12: map.get($sizes, 12);
+$size-13: map.get($sizes, 13);
+$size-14: map.get($sizes, 14);
+$size-15: map.get($sizes, 15);
+$size-16: map.get($sizes, 16);
+$size-17: map.get($sizes, 17);
+$size-18: map.get($sizes, 18);
+$size-19: map.get($sizes, 19);
+$size-20: map.get($sizes, 20);
+$size-21: map.get($sizes, 21);
+$size-22: map.get($sizes, 22);
+$size-23: map.get($sizes, 23);
+$size-24: map.get($sizes, 24);
+$size-25: map.get($sizes, 25);
+$size-26: map.get($sizes, 26);
+$size-27: map.get($sizes, 27);
+$size-28: map.get($sizes, 28);
+$size-29: map.get($sizes, 29);
+$size-30: map.get($sizes, 30);
+$size-31: map.get($sizes, 31);
+$size-32: map.get($sizes, 32);
+$size-33: map.get($sizes, 33);
+$size-34: map.get($sizes, 34);
+$size-35: map.get($sizes, 35);
+$size-36: map.get($sizes, 36);
+$size-37: map.get($sizes, 37);
+$size-38: map.get($sizes, 38);
+$size-39: map.get($sizes, 39);
+$size-40: map.get($sizes, 40);
+$size-41: map.get($sizes, 41);
+$size-42: map.get($sizes, 42);
+$size-43: map.get($sizes, 43);
+$size-44: map.get($sizes, 44);
+$size-45: map.get($sizes, 45);
+$size-46: map.get($sizes, 46);
+$size-47: map.get($sizes, 47);
+$size-48: map.get($sizes, 48);
+$size-49: map.get($sizes, 49);
+$size-50: map.get($sizes, 50);

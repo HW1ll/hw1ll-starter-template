@@ -1,0 +1,51 @@
+@use '../abstracts/'as *;
+@use 'sass:math';
+
+.flex-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--flex-gap, $flex-gap);
+
+    >* {
+        flex: 1 1 auto;
+    }
+
+    @each $breakpoint-name,
+    $breakpoint-value in $grid-breakpoints {
+        @if $breakpoint-name=='xs' {
+            @for $i from 1 through $layout-col-count {
+                &.col-#{$i} {
+                    >* {
+                        flex: 1 1 100%;
+                    }
+                }
+            }
+        }
+
+        @else {
+            @include media-breakpoint-up($breakpoint-name) {
+                @for $i from 1 through $layout-col-count {
+                    &.col-#{$breakpoint-name}-#{$i} {
+                        >* {
+                            flex: 1 1 calc(math.percentage(math.div($i, $layout-col-count)) - var(--flex-gap, $flex-gap));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.flex-auto-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--flex-gap, $flex-gap);
+}
+
+.flex-group {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--flex-column-gap, $flex-gap);
+    row-gap: var(--flex-row-gap, calc($flex-gap / 2));
+    width: fit-content;
+}
